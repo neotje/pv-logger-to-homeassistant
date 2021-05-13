@@ -10,7 +10,8 @@ PACKAGES = find_packages()
 
 REQUIRED = [
     "PyYAML>=5.4.1",
-    "paho-mqtt>=1.5.1"
+    "paho-mqtt>=1.5.1",
+    "mysql-connector-python>=8.0.25"
 ]
 
 setup(
