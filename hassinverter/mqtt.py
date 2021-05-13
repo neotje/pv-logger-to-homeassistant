@@ -1,4 +1,3 @@
-from hassinverter.database import get_last_record
 import paho.mqtt.publish as publish
 import json
 
@@ -26,9 +25,9 @@ def publish_config(inverter: str):
     }
 
     publish.single(conf_topic(inverter), json.dumps(payload), hostname=_config['mqtt']['host'], retain=True)
+    _LOGGER.debug(payload)
 
-def publish_state(inverter: str):
+def publish_state(inverter: str, state):
     _LOGGER.info(f"Updating state of {inverter}")
-    r = get_last_record(inverter)
-    _LOGGER.info(r)
-    publish.single(state_topic(inverter), r["PAC"], hostname=_config["mqtt"]["host"])
+    _LOGGER.debug(state)
+    publish.single(state_topic(inverter), state["PAC"], hostname=_config["mqtt"]["host"])

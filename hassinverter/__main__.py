@@ -1,7 +1,9 @@
-from hassinverter.mqtt import publish_config, publish_state
 import sys
-from hassinverter.config import check_config
 from time import sleep
+
+from hassinverter.mqtt import publish_config, publish_state
+from hassinverter.config import check_config
+from hassinverter.database import Database
 
 import logging
 logging.basicConfig(
@@ -11,23 +13,26 @@ logging.basicConfig(
 )
 _LOGGER = logging.getLogger(__name__)
 
+
 def main():
     check_config()
-    from hassinverter.database import get_inverters, get_last_record
 
-    i = get_inverters()
+    db = Database()
 
-    for d in i:
-        publish_config(d)
+    inverters = db.get_inverters()
+
+    for i in inverters:
+        publish_config(i)
 
     try:
         while True:
-            for d in i:
-                publish_state(d)
+            for i in inverters:
+                publish_state(i, db.get_last_record(i))
 
             sleep(60)
     except KeyboardInterrupt:
         pass
+
 
 if __name__ == "__main__":
     sys.exit(main())
