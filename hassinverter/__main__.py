@@ -24,10 +24,18 @@ def main():
     for i in inverters:
         publish_config(i)
 
+    publish_config("TOTAL_INVERTERS")
+
     try:
         while True:
+            total = 0
             for i in inverters:
-                publish_state(i, db.get_last_record(i))
+                r = db.get_last_record(i)
+                total += r["PAC"]
+
+                publish_state(i, r["PAC"])
+
+            publish_state("TOTAL_INVERTERS", total)
 
             sleep(60)
     except KeyboardInterrupt:

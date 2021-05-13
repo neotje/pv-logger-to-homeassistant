@@ -30,4 +30,4 @@ def publish_config(inverter: str):
 def publish_state(inverter: str, state):
     _LOGGER.info(f"Updating state of {inverter}")
     _LOGGER.debug(state)
-    publish.single(state_topic(inverter), state["PAC"], hostname=_config["mqtt"]["host"])
+    publish.single(state_topic(inverter), state, hostname=_config["mqtt"]["host"])
