@@ -6,4 +6,4 @@ touch config/server.yaml
 python3 -m  venv venv
 source venv/bin/activate
 
-python -m pip install -e .
+python3 -m pip install -e .
